@@ -45,7 +45,18 @@ public class MFT_DAO {
     // If the MFT is not found in the TransactionLog, return -1
     // DO NOT CHANGE THE METHOD SIGNATURE
 	public int getOwnerId(MFT mft) {
-		return -1;
+        if (mft == null) return -1;
+
+        Transaction current = transactionLog.begin();
+        int mftId = mft.getId();
+        int ownerId = -1;
+        while (current != null) {
+            if (current.getMFTId() == mftId) {
+                ownerId = current.getBuyerId();
+            }
+            current = transactionLog.next(current);
+        }
+		return ownerId;
 	}
 
     // TODO L03P02 Model 1.6: Implement recordTransaction method in MFT_DAO
@@ -55,6 +66,8 @@ public class MFT_DAO {
     // If the transaction is successfully recorded, return true
     // DO NOT CHANGE THE METHOD SIGNATURE
 	public boolean recordTransaction(int Seller, int Buyer, int MFTId, double price) {
-        return false;
+        Transaction transaction = new Transaction(Seller, Buyer, MFTId, price);
+        return transactionLog.insertTransaction(transaction);
+
 	}
 }
