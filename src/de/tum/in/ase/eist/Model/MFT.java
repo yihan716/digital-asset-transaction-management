@@ -45,6 +45,7 @@ public class MFT extends Observable {
 
     public void setPrice(double price) {
         this.price = price;
+        notifyObservers();
     }
 
     @Override
