@@ -16,7 +16,7 @@ public class TextView extends View {
         this.scanner = new ScannerWrapper(new Scanner(System.in));
     }
 
-	public void run() throws Exception {
+	public void run(){
 		while (true) {
 			System.out.println("\nStock: ");
             printStock(mfts);
@@ -57,35 +57,43 @@ public class TextView extends View {
     // Finish this method
     // Use the public methods of the controller to check if the MFT exists and then buy it
     // Remember that the controller can throw exceptions
-    public void buy() throws Exception {
-        System.out.println("Beginning new transaction:");
-        System.out.print("MFT ID: ");
-        int mftID = scanner.nextInt();
-		scanner.nextLine();
-        // EDIT BELOW THIS LINE
-        MFT mft =  controller.getMFTById(mftID);
-        controller.buyMFT(mft, this.ID);
-        // STOP EDITING HERE
+    public void buy(){
+        try {
+            System.out.println("Beginning new transaction:");
+            System.out.print("MFT ID: ");
+            int mftID = scanner.nextInt();
+		    scanner.nextLine();
+            // EDIT BELOW THIS LINE
+            MFT mft =  controller.getMFTById(mftID);
+            controller.buyMFT(mft, this.ID);
+            // STOP EDITING HERE
+        } catch (Exception e) {
+            System.out.println("Buy failed: " + e.getMessage());
+        }
     }
 
     // TODO L03P02 View 3.2: Finish changePrice method
-	public void changePrice() throws Exception {
-        System.out.println("Changing price of MFT");
-        System.out.print("MFT ID: ");
-        int mftID = scanner.nextInt();
-		scanner.nextLine();
+	public void changePrice() {
+        try {
+            System.out.println("Changing price of MFT");
+            System.out.print("MFT ID: ");
+            int mftID = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.print("New price (double): ");
-        double newPrice = scanner.nextDouble();
-		scanner.nextLine();
+            System.out.print("New price (double): ");
+            double newPrice = scanner.nextDouble();
+            scanner.nextLine();
 
-        // Finish this method
-        // Use the public methods of the controller to check if the MFT exists and then change its price
-        // Remember that the controller can throw exceptions
-        // EDIT BELOW THIS LINE
-        MFT mft =  controller.getMFTById(mftID);
-        controller.changePrice(mft, newPrice);
-        // STOP EDITING HERE
+            // Finish this method
+            // Use the public methods of the controller to check if the MFT exists and then change its price
+            // Remember that the controller can throw exceptions
+            // EDIT BELOW THIS LINE
+            MFT mft =  controller.getMFTById(mftID);
+            controller.changePrice(mft, newPrice);
+            // STOP EDITING HERE
+        } catch (Exception e) {
+            System.out.println("Change price operation failed: " + e.getMessage());
+        }
     }
 
 }

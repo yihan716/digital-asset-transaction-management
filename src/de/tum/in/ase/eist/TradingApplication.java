@@ -15,7 +15,7 @@ import java.util.List;
 
 public class TradingApplication {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         DatabaseHelper databaseHelper = new DatabaseHelper("jdbc:sqlite:mft.db");
         databaseHelper.initializeDatabase();
 
