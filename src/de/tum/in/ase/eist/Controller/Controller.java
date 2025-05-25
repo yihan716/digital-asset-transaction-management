@@ -46,6 +46,25 @@ public class Controller {
     // If buying is possible, add the Transaction to the TransactionLog
     // DO NOT CHANGE THE METHOD SIGNATURE
     public void buyMFT(MFT mft, int buyerID) throws Exception {
+        if (mft == null) {
+            throw new Exception("Invalid MFT.");
+        }
+
+        double current = view.getBalance();
+        double price = mft.getPrice();
+        if (current < price) {
+            throw new Exception("Insufficient funds.");
+        }
+
+        int ownerId = getMFTOwnerId(mft);
+        boolean success = mftDAO.recordTransaction(ownerId, buyerID, mft.getId(), price);
+        if (!success) {
+            throw new Exception("Transaction failed.");
+        }
+
+        view.addMFT(mft);
+        view.setBalance(current - price);
+
     }
 
     // TODO L03P02 Controller 2.2: Implement changePrice method
@@ -54,5 +73,17 @@ public class Controller {
     // This method should allow you to change the price of an MFT that you own
     // DO NOT CHANGE THE METHOD SIGNATURE
     public void changePrice(MFT mft, double newPrice) throws Exception {
+        if (mft == null || newPrice < 0) {
+            throw new Exception("Invalid input.");
+        }
+
+        int ownerId = getMFTOwnerId(mft);
+        if (ownerId != view.getID()) {
+            throw new Exception("Invalid owner.");
+        }
+
+        mft.setPrice(newPrice);
+        mftDAO.updateMFT(mft);
+        view.update();
     }
 }
