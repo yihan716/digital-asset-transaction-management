@@ -64,8 +64,13 @@ public class TextView extends View {
             int mftID = scanner.nextInt();
 		    scanner.nextLine();
             // EDIT BELOW THIS LINE
-            MFT mft =  controller.getMFTById(mftID);
+            MFT mft = controller.getMFTById(mftID);
+            if (mft == null) {
+                System.out.println("No MFT found with ID " + mftID);
+                return;
+            }
             controller.buyMFT(mft, this.ID);
+
             // STOP EDITING HERE
         } catch (Exception e) {
             System.out.println("Buy failed: " + e.getMessage());
