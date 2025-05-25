@@ -94,6 +94,10 @@ public class TextView extends View {
             // Remember that the controller can throw exceptions
             // EDIT BELOW THIS LINE
             MFT mft =  controller.getMFTById(mftID);
+            if (mft == null) {
+                System.out.println("No MFT found with ID " + mftID);
+                return;
+            }
             controller.changePrice(mft, newPrice);
             // STOP EDITING HERE
         } catch (Exception e) {
