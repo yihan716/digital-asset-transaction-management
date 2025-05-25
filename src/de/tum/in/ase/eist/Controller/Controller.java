@@ -45,32 +45,28 @@ public class Controller {
     // Buying is only possible if you have enough money
     // If buying is possible, add the Transaction to the TransactionLog
     // DO NOT CHANGE THE METHOD SIGNATURE
-    public void buyMFT(MFT mft, int buyerID) {
-        try {
-            if (mft == null) {
-                throw new Exception("Invalid MFT.");
-            }
-
-            double current = view.getBalance();
-            double price = mft.getPrice();
-            if (current < price) {
-                throw new Exception("Insufficient funds.");
-            }
-
-            int ownerId = getMFTOwnerId(mft);
-            if (ownerId == buyerID) {
-                throw new Exception("Own mft.");
-            }
-            boolean success = mftDAO.recordTransaction(ownerId, buyerID, mft.getId(), price);
-            if (!success) {
-                throw new Exception("Transaction failed.");
-            }
-
-            view.addMFT(mft);
-            view.setBalance(current - price);
-        } catch (Exception e) {
-            System.out.println("Buy MFT failed: " + e.getMessage());
+    public void buyMFT(MFT mft, int buyerID) throws Exception {
+        if (mft == null) {
+            throw new Exception("Invalid MFT.");
         }
+
+        double current = view.getBalance();
+        double price = mft.getPrice();
+        if (current < price) {
+            throw new Exception("Insufficient funds.");
+        }
+
+        int ownerId = getMFTOwnerId(mft);
+        if (ownerId == buyerID) {
+            throw new Exception("Own mft.");
+        }
+        boolean success = mftDAO.recordTransaction(ownerId, buyerID, mft.getId(), price);
+        if (!success) {
+            throw new Exception("Transaction failed.");
+        }
+
+        view.addMFT(mft);
+        view.setBalance(current - price);
 
     }
 
@@ -79,23 +75,18 @@ public class Controller {
     // - changePrice(MFT mft, double newPrice): void
     // This method should allow you to change the price of an MFT that you own
     // DO NOT CHANGE THE METHOD SIGNATURE
-    public void changePrice(MFT mft, double newPrice) {
-        try {
-            if (mft == null || newPrice < 0) {
-                throw new Exception("Invalid input.");
-            }
-
-            int ownerId = getMFTOwnerId(mft);
-            if (ownerId != view.getID()) {
-                throw new Exception("Invalid owner.");
-            }
-
-            mft.setPrice(newPrice);
-
-            mftDAO.updateMFT(mft);
-            view.update();
-        } catch (Exception e) {
-            System.out.println("Change price failed: " + e.getMessage());
+    public void changePrice(MFT mft, double newPrice) throws Exception {
+        if (mft == null || newPrice < 0) {
+            throw new Exception("Invalid input.");
         }
+
+        int ownerId = getMFTOwnerId(mft);
+        if (ownerId != view.getID()) {
+            throw new Exception("Invalid owner.");
+        }
+
+        mft.setPrice(newPrice);
+        mftDAO.updateMFT(mft);
+        view.update();
     }
 }
