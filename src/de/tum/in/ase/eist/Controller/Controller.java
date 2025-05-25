@@ -57,6 +57,9 @@ public class Controller {
         }
 
         int ownerId = getMFTOwnerId(mft);
+        if (ownerId == buyerID) {
+            throw new Exception("Own mft.");
+        }
         boolean success = mftDAO.recordTransaction(ownerId, buyerID, mft.getId(), price);
         if (!success) {
             throw new Exception("Transaction failed.");
