@@ -87,6 +87,6 @@ public class Controller {
 
         mft.setPrice(newPrice);
         mftDAO.updateMFT(mft);
-        view.update();
+        view.addMFT(mft);
     }
 }
